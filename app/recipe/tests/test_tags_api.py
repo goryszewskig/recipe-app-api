@@ -94,7 +94,7 @@ class PrivateTagsApiTests(TestCase):
         )
         recipe.tags.add(tag1)
 
-        res = self.client.get(TAGS_URL, {'assgined_only': 1})
+        res = self.client.get(TAGS_URL, {'assigned_only': 1})
 
         serializer1 = TagSerializer(tag1)
         serializer2 = TagSerializer(tag2)
@@ -105,9 +105,9 @@ class PrivateTagsApiTests(TestCase):
         """Test filtering tags by asigned returns unique items"""
         tag = Tag.objects.create(user=self.user, name='Breakfast')
         Tag.objects.create(user=self.user, name='Lunch')
-        recipe1 = Recipe.objects.create(
+        recipe1 = Recipe.objects.create(  # noqa
             title='Pancakes',
-            time_minutes=5,
+            time_minutes=11,
             price=3.00,
             user=self.user
         )
@@ -122,5 +122,3 @@ class PrivateTagsApiTests(TestCase):
         res = self.client.get(TAGS_URL, {'assigned_only': 1})
 
         self.assertEqual(len(res.data), 1)
-
-
